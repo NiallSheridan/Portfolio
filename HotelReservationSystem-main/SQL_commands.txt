@@ -1,0 +1,48 @@
+
+DROP DATABASE hotel_reservation_system;
+CREATE DATABASE hotel_reservation_system;
+
+USE hotel_reservation_system;
+
+CREATE TABLE Customer (
+	CustomerNo INT NOT NULL PRIMARY KEY,
+	FirstName VARCHAR(25) NOT NULL, 
+	LastName VARCHAR(25) NOT NULL,
+	Address VARCHAR(255),
+	Phone VARCHAR(10) NOT NULL, 
+	Email VARCHAR(50) 
+);
+
+CREATE TABLE Room (
+	RoomNo INT NOT NULL PRIMARY KEY,
+	RoomType VARCHAR(10) NOT NULL,
+	Decommissioned BOOLEAN
+);
+
+CREATE TABLE Extra(
+	ExtraNo INT NOT NULL PRIMARY KEY,
+	Type VARCHAR(10) NOT NULL,
+	Qty INT NOT NULL,
+	Cost DOUBLE NOT NULL,
+	Total DOUBLE NOT NULL,
+	BookingNo INT NOT NULL
+);
+
+CREATE TABLE Booking(
+	BookingNo INT NOT NULL PRIMARY KEY,
+	CheckInDate DATE NOT NULL,
+	CheckOutDate DATE NOT NULL,
+	CustomerNo INT,
+	RoomNo INT,
+	CheckIn BOOLEAN,
+	CheckOutTotal DOUBLE
+);
+
+ALTER TABLE Booking
+ADD FOREIGN KEY (CustomerNo) REFERENCES Customer(CustomerNo);
+
+ALTER TABLE Booking
+ADD FOREIGN KEY (RoomNo) REFERENCES Room(RoomNo);
+
+ALTER TABLE Extra
+ADD FOREIGN KEY (BookingNo) REFERENCES Booking(BookingNo);
